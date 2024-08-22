@@ -7,6 +7,8 @@ import com.sparta.springwebscheduler.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -23,6 +25,16 @@ public class SchedulerController {
     @GetMapping("/schedule/{id}")
     public Schedule getScheduleById(@PathVariable Long id){
         return scheduleservice.getScheduleById(id);
+    }
+
+    @GetMapping("/schedule")
+    public List<Schedule> getScheduleList(){
+        return scheduleservice.getScheduleList();
+    }
+
+    @PutMapping("/schedule/{id}")
+    public Schedule updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequest){
+        return scheduleservice.updateSchedule(id, scheduleRequest);
     }
 
 

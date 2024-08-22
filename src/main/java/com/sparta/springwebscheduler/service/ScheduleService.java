@@ -4,8 +4,11 @@ import com.sparta.springwebscheduler.dto.ScheduleRequestDto;
 import com.sparta.springwebscheduler.dto.ScheduleResponseDto;
 import com.sparta.springwebscheduler.entity.Schedule;
 import com.sparta.springwebscheduler.repository.ScheduleRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +25,17 @@ public class ScheduleService {
         ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(schedule);
 
         return scheduleResponseDto;
+    }
+
+    public List<Schedule> getScheduleList() {
+        return scheduleRepository.findAllByOrderByModifiedAtDesc();
+    }
+
+    @Transactional
+    public Schedule updateSchedule(Long id, ScheduleRequestDto scheduleRequest) {
+        Schedule schedule = getScheduleById(id);
+        schedule.update(scheduleRequest);
+        return schedule;
     }
 
     public Schedule getScheduleById(long id){
