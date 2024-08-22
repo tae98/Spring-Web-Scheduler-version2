@@ -1,0 +1,26 @@
+package com.sparta.springwebscheduler.controller;
+
+import com.sparta.springwebscheduler.dto.CommentRequestDto;
+import com.sparta.springwebscheduler.dto.CommentResponseDto;
+import com.sparta.springwebscheduler.entity.Comment;
+import com.sparta.springwebscheduler.service.CommentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/comment")
+public class CommentController {
+
+    private final CommentService commentService;
+
+    @PostMapping("/{schedule_id}")
+    public CommentResponseDto postComment(@PathVariable Long schedule_id, @RequestBody CommentRequestDto commentRequest){
+        return commentService.postComment(schedule_id,commentRequest);
+    }
+
+    @GetMapping("/{comment_id}")
+    public Comment getCommentById(@PathVariable Long comment_id){
+        return commentService.getCommentById(comment_id);
+    }
+}

@@ -38,9 +38,9 @@ public class ScheduleService {
         return schedule;
     }
 
-    public Schedule getScheduleById(long id){
-        return scheduleRepository.findById(id).orElseThrow(()->
-                new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
+    public Schedule getScheduleById(Long id){
+        return scheduleRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
         );
     }
 }
