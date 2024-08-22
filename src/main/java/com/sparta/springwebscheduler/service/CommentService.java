@@ -8,6 +8,9 @@ import com.sparta.springwebscheduler.repository.CommentRepository;
 import com.sparta.springwebscheduler.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +32,23 @@ public class CommentService {
 
         return commentResponseDto;
     }
+    public List<Comment> getCommentList() {
+        return commentRepository.findAllByOrderByModifiedAtDesc();
+    }
+
+    @Transactional
+    public Comment updateComment(Long commentId, CommentRequestDto commentRequest) {
+        Comment comment = getCommentById(commentId);
+        comment.update(commentRequest);
+        return comment;
+    }
+
+    public Long deleteComment(Long commentId) {
+        Comment comment = getCommentById(commentId);
+        commentRepository.deleteById(commentId);
+        return commentId;
+    }
+
     public Comment getCommentById(Long comment_id) {
         return commentRepository.findById(comment_id).orElseThrow(
                 ()-> new IllegalArgumentException("선택한 댓글이 존재하지 않습니다.")
@@ -40,4 +60,6 @@ public class CommentService {
                 ()-> new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
         );
     }
+
+
 }
