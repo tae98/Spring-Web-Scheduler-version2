@@ -1,0 +1,26 @@
+package com.sparta.springwebscheduler.controller;
+
+import com.sparta.springwebscheduler.dto.ScheduleRequestDto;
+import com.sparta.springwebscheduler.dto.ScheduleResponseDto;
+import com.sparta.springwebscheduler.service.ScheduleService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api")
+public class SchedulerController {
+
+    private final ScheduleService scheduleservice;
+
+
+    @PostMapping("/schedule")
+    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequest){
+        return scheduleservice.createSchedule(scheduleRequest);
+    }
+
+//    @GetMapping("/schedule/{id}")
+//    public ScheduleResponseDto getScheduleById(@PathVariable Long id){
+//        return scheduleservice.getScheduleById(id);
+//    }
+}
