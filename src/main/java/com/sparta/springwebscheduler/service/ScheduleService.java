@@ -1,11 +1,15 @@
 package com.sparta.springwebscheduler.service;
 
+import com.sparta.springwebscheduler.dto.PageResponseDto;
 import com.sparta.springwebscheduler.dto.ScheduleRequestDto;
 import com.sparta.springwebscheduler.dto.ScheduleResponseDto;
 import com.sparta.springwebscheduler.entity.Schedule;
 import com.sparta.springwebscheduler.repository.ScheduleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +31,19 @@ public class ScheduleService {
         return scheduleResponseDto;
     }
 
-    public List<Schedule> getScheduleList() {
-        return scheduleRepository.findAllByOrderByModifiedAtDesc();
+    public List<PageResponseDto> getScheduleList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Schedule>  scheduleList;
+        scheduleList = scheduleRepository.findAllByOrderByModifiedAtDesc(pageable);
+        return scheduleList.map(schedule -> new PageResponseDto(
+                schedule.getCommentList().size(),
+                schedule.getUsername(),
+                schedule.getTitle(),
+                schedule.getContents(),
+                schedule.getModifiedAt(),
+                schedule.getCreatedAt()
+        )).getContent();
     }
 
     @Transactional

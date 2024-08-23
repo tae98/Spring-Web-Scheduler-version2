@@ -1,5 +1,6 @@
 package com.sparta.springwebscheduler.controller;
 
+import com.sparta.springwebscheduler.dto.PageResponseDto;
 import com.sparta.springwebscheduler.dto.ScheduleRequestDto;
 import com.sparta.springwebscheduler.dto.ScheduleResponseDto;
 import com.sparta.springwebscheduler.entity.Schedule;
@@ -28,8 +29,11 @@ public class SchedulerController {
     }
 
     @GetMapping("/schedule")
-    public List<Schedule> getScheduleList(){
-        return scheduleservice.getScheduleList();
+    public List<PageResponseDto> getScheduleList(
+            @RequestParam("page") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+            ){
+        return scheduleservice.getScheduleList(page -1,size);
     }
 
     @PutMapping("/schedule/{id}")

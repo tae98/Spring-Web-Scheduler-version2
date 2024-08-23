@@ -23,6 +23,8 @@ public class CommentService {
         Schedule schedule = getScheduleById(scheduledId);
         // RequestDto -> Entity
         Comment comment = new Comment(commentRequest);
+        //코멘트를 schedule의 commentList에 추가
+        schedule.addCommentList(comment);
         //코멘트에 schedule 값 부여
         comment.setSchedule(schedule);
         // DB 저장
