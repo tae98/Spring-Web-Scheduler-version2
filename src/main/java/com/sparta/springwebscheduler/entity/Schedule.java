@@ -28,7 +28,7 @@ public class Schedule extends Timestamped{
     @Column(name = "contents", nullable = false, length = 500)
     private String contents;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}) // 연속성 전이로 포함한 댓글 전체 삭제
     private List<Comment> commentList = new ArrayList<>();
 
     public void addCommentList(Comment comment){

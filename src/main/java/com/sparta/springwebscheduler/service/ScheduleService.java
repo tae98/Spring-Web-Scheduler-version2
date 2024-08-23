@@ -53,9 +53,16 @@ public class ScheduleService {
         return schedule;
     }
 
+    public Long deleteSchedule(Long id) {
+        Schedule deleteSchedule = getScheduleById(id);
+        scheduleRepository.delete(deleteSchedule);
+        return id;
+    }
+
     public Schedule getScheduleById(Long id){
         return scheduleRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
         );
     }
+
 }
