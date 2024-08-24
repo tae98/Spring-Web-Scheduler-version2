@@ -1,4 +1,4 @@
-package com.sparta.springwebscheduler.dto;
+package com.sparta.springwebscheduler.dto.ScheduleDto;
 
 
 import com.sparta.springwebscheduler.entity.Schedule;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ScheduleResponseDto {
     private Long id;
-    private String username;
+    private Long user_id;
     private String title;
     private String contents;
     private LocalDateTime createAt;
@@ -17,7 +17,7 @@ public class ScheduleResponseDto {
 
     public ScheduleResponseDto(Schedule schedule){
         this.id = schedule.getId();;
-        this.username = schedule.getUsername();
+        this.user_id = schedule.getUser_id();
         this.title = schedule.getTitle();
         this.contents = schedule.getContents();
         this.createAt = schedule.getCreatedAt();

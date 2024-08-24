@@ -1,6 +1,6 @@
 package com.sparta.springwebscheduler.entity;
 
-import com.sparta.springwebscheduler.dto.ScheduleRequestDto;
+import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +19,8 @@ public class Schedule extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)//AUTO-INCREMENT ID VALUE
     private Long id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "user_id", nullable = false)
+    private Long user_id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -31,19 +31,22 @@ public class Schedule extends Timestamped{
     @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}) // 연속성 전이로 포함한 댓글 전체 삭제
     private List<Comment> commentList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "schedule")
+    private List<Storage> StorageList = new ArrayList<>();
+
     public void addCommentList(Comment comment){
         this.commentList.add(comment);
         comment.setSchedule(this);
     }
 
     public Schedule(ScheduleRequestDto requestDto) {
-        this.username = requestDto.getUsername();
+        this.user_id = requestDto.getUser_id();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }
 
     public void update(ScheduleRequestDto requestDto) {
-        this.username = requestDto.getUsername();
+        this.user_id = requestDto.getUser_id();
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }

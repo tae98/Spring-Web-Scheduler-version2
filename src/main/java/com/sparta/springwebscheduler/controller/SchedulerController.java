@@ -1,8 +1,8 @@
 package com.sparta.springwebscheduler.controller;
 
 import com.sparta.springwebscheduler.dto.PageResponseDto;
-import com.sparta.springwebscheduler.dto.ScheduleRequestDto;
-import com.sparta.springwebscheduler.dto.ScheduleResponseDto;
+import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleRequestDto;
+import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleResponseDto;
 import com.sparta.springwebscheduler.entity.Schedule;
 import com.sparta.springwebscheduler.service.ScheduleService;
 import lombok.RequiredArgsConstructor;

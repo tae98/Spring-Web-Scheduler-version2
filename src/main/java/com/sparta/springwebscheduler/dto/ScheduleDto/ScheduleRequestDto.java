@@ -1,10 +1,10 @@
-package com.sparta.springwebscheduler.dto;
+package com.sparta.springwebscheduler.dto.ScheduleDto;
 
 import lombok.Getter;
 
 @Getter
 public class ScheduleRequestDto {
-    private String username;
+    private Long user_id;
     private String title;
     private String contents;
 }

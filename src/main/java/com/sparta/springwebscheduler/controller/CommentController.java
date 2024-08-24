@@ -1,7 +1,7 @@
 package com.sparta.springwebscheduler.controller;
 
-import com.sparta.springwebscheduler.dto.CommentRequestDto;
-import com.sparta.springwebscheduler.dto.CommentResponseDto;
+import com.sparta.springwebscheduler.dto.ConsumerDto.CommentRequestDto;
+import com.sparta.springwebscheduler.dto.ConsumerDto.CommentResponseDto;
 import com.sparta.springwebscheduler.entity.Comment;
 import com.sparta.springwebscheduler.service.CommentService;
 import lombok.RequiredArgsConstructor;

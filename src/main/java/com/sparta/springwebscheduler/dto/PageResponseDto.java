@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PageResponseDto {
     private Integer commentCount;
-    private String username;
+    private Long user_id;
     private String title;
     private String contents;
     private LocalDateTime createAt;

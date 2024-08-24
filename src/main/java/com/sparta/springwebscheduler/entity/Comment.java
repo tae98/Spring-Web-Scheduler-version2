@@ -1,7 +1,6 @@
 package com.sparta.springwebscheduler.entity;
 
-import com.sparta.springwebscheduler.dto.CommentRequestDto;
-import com.sparta.springwebscheduler.dto.ScheduleRequestDto;
+import com.sparta.springwebscheduler.dto.ConsumerDto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

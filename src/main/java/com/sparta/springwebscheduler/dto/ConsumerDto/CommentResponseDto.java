@@ -1,4 +1,4 @@
-package com.sparta.springwebscheduler.dto;
+package com.sparta.springwebscheduler.dto.ConsumerDto;
 
 import com.sparta.springwebscheduler.entity.Comment;
 import lombok.Getter;
