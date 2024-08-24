@@ -1,8 +1,10 @@
 package com.sparta.springwebscheduler.entity;
 
 import jakarta.persistence.*;
+import lombok.Setter;
 
 @Entity
+@Setter
 @Table(name = "storages")
 public class Storage {
     @Id

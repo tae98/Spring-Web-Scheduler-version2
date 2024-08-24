@@ -12,39 +12,43 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/schedule")
 public class SchedulerController {
 
-    private final ScheduleService scheduleservice;
+    private final ScheduleService scheduleService;
 
 
-    @PostMapping("/schedule")
+    @PostMapping
     public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequest){
-        return scheduleservice.createSchedule(scheduleRequest);
+        return scheduleService.createSchedule(scheduleRequest);
     }
 
-    @GetMapping("/schedule/{id}")
+    @GetMapping("/{id}")
     public Schedule getScheduleById(@PathVariable Long id){
-        return scheduleservice.getScheduleById(id);
+        return scheduleService.getScheduleById(id);
     }
 
-    @GetMapping("/schedule")
+    @GetMapping
     public List<PageResponseDto> getScheduleList(
             @RequestParam("page") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
             ){
-        return scheduleservice.getScheduleList(page -1,size);
+        return scheduleService.getScheduleList(page -1,size);
     }
 
-    @PutMapping("/schedule/{id}")
+    @PutMapping("/{id}")
     public Schedule updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequest){
-        return scheduleservice.updateSchedule(id, scheduleRequest);
+        return scheduleService.updateSchedule(id, scheduleRequest);
     }
 
-    @DeleteMapping("/schedule/{id}")
+    @DeleteMapping("/{id}")
     public Long deleteSchedule(@PathVariable Long id){
-        return scheduleservice.deleteSchedule(id);
+        return scheduleService.deleteSchedule(id);
     }
 
+    @PutMapping("/{id}/{user_id}")
+    public void setUserToSchedule(@PathVariable Long id, @PathVariable Long user_id){
+        scheduleService.setUserToSchedule(id, user_id);
+    }
 
 }

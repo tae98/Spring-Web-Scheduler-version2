@@ -4,7 +4,11 @@ import com.sparta.springwebscheduler.dto.PageResponseDto;
 import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleRequestDto;
 import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleResponseDto;
 import com.sparta.springwebscheduler.entity.Schedule;
+import com.sparta.springwebscheduler.entity.Storage;
+import com.sparta.springwebscheduler.entity.User;
 import com.sparta.springwebscheduler.repository.ScheduleRepository;
+import com.sparta.springwebscheduler.repository.StorageRepository;
+import com.sparta.springwebscheduler.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +23,8 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
+    private final StorageRepository storageRepository;
 
     public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequest) {
         // RequestDto -> Entity
@@ -35,7 +41,7 @@ public class ScheduleService {
         //Pageable interface 사용하여 pageagle 알맞은 page, size 값을 가진 객체 생성
         Pageable pageable = PageRequest.of(page, size);
         //Schedule 을 포함한 page 리스트 생성
-        Page<Schedule>  scheduleList;
+        Page<Schedule> scheduleList;
         //생성한 리스트에 수정일 내림차순으로 모든 schedule 주입 (JpaRepository custom method)
         scheduleList = scheduleRepository.findAllByOrderByModifiedAtDesc(pageable);
         //Page<Schedule> -> List<PageResponseDto> 로 map 을 이용하여 변경
@@ -60,6 +66,21 @@ public class ScheduleService {
         return schedule;
     }
 
+    public void setUserToSchedule(Long id, Long user_id) {
+        Schedule schedule = getScheduleById(id);
+
+        User user = userRepository.findById(user_id).orElseThrow(
+                () -> {
+                    return new IllegalArgumentException("선택한 유저는 존재하지 않습니다.");
+                });
+
+        Storage storage = new Storage();
+        storage.setUser(user);
+        storage.setSchedule(schedule);
+
+        storageRepository.save(storage);
+    }
+
     public Long deleteSchedule(Long id) {
         //알맞은 schedule db 에서 찾기
         Schedule deleteSchedule = getScheduleById(id);
@@ -69,11 +90,10 @@ public class ScheduleService {
         return id;
     }
 
-    public Schedule getScheduleById(Long id){
+    public Schedule getScheduleById(Long id) {
         //db상에 해당 id 를 가진 스캐쥴 return 없을 시 Exception 처리
         return scheduleRepository.findById(id).orElseThrow(
-                ()-> new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
+                () -> new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
         );
     }
-
 }

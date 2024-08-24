@@ -45,7 +45,7 @@ public class UserService {
 
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(
-                ()-> new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
+                ()-> new IllegalArgumentException("선택한 유저는 존재하지 않습니다.")
         );
     }
 }
