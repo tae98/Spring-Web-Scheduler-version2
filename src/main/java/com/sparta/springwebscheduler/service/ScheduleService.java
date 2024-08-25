@@ -1,6 +1,7 @@
 package com.sparta.springwebscheduler.service;
 
 import com.sparta.springwebscheduler.dto.PageResponseDto;
+import com.sparta.springwebscheduler.dto.ScheduleDetailResponseDto;
 import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleRequestDto;
 import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleResponseDto;
 import com.sparta.springwebscheduler.entity.Schedule;
@@ -90,10 +91,28 @@ public class ScheduleService {
         return id;
     }
 
+    public ScheduleDetailResponseDto getScheduleByIdDedtail(Long id) {
+        Schedule schedule = getScheduleById(id);
+        User user = userRepository.findById(schedule.getUser_id()).orElseThrow(
+                ()->new IllegalArgumentException("해당 유저가 존재하지않습니다.")
+        );
+        ScheduleDetailResponseDto scheduleDetailResponse = new ScheduleDetailResponseDto(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                schedule.getCreatedAt(),
+                schedule.getModifiedAt(),
+                schedule.getId(),
+                schedule.getTitle(),
+                schedule.getContents()
+        );
+        return scheduleDetailResponse;
+    }
+
     public Schedule getScheduleById(Long id) {
         //db상에 해당 id 를 가진 스캐쥴 return 없을 시 Exception 처리
         return scheduleRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
+                () -> new IllegalArgumentException("선택한 일정는 존재하지 않습니다.")
         );
     }
 }
