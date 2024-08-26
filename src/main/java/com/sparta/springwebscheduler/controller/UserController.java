@@ -1,6 +1,5 @@
 package com.sparta.springwebscheduler.controller;
 
-import com.sparta.springwebscheduler.dto.PageResponseDto;
 import com.sparta.springwebscheduler.dto.UserDto.UserRequestDto;
 import com.sparta.springwebscheduler.dto.UserDto.UserResponseDto;
 import com.sparta.springwebscheduler.entity.User;
@@ -17,7 +16,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/signup")
     public UserResponseDto createUser(@RequestBody UserRequestDto userRequest, HttpServletResponse res){
         return userService.createUser(userRequest,res);
     }
@@ -41,4 +40,6 @@ public class UserController {
     public Long deleteUser(@PathVariable Long id){
         return userService.deleteUser(id);
     }
+
+
 }

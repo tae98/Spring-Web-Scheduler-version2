@@ -1,6 +1,7 @@
 package com.sparta.springwebscheduler.service;
 
 import com.sparta.springwebscheduler.config.PasswordEncoder;
+import com.sparta.springwebscheduler.dto.LoginRequestDto;
 import com.sparta.springwebscheduler.dto.UserDto.UserRequestDto;
 import com.sparta.springwebscheduler.dto.UserDto.UserResponseDto;
 import com.sparta.springwebscheduler.entity.User;
@@ -66,5 +67,24 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(
                 ()-> new IllegalArgumentException("선택한 유저는 존재하지 않습니다.")
         );
+    }
+
+    public void login(LoginRequestDto loginRequest, HttpServletResponse res) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+
+        //사용자 확인
+        User user = userRepository.findByEmail(email).orElseThrow(
+                ()-> new IllegalArgumentException("등록된 사용자가 없습니다.")
+        );
+
+        //비밀번호 확인
+        if(!passwordEncoder.matches(password, user.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
+        }
+
+        //JWT생성 및 쿠키에 저장후 response 객체의 추가
+        String token = jwtUtil.createToken(user.getId());
+        jwtUtil.addJwtToCookie(token, res);
     }
 }
