@@ -2,6 +2,7 @@ package com.sparta.springwebscheduler.service;
 
 import com.sparta.springwebscheduler.config.PasswordEncoder;
 import com.sparta.springwebscheduler.dto.LoginRequestDto;
+import com.sparta.springwebscheduler.dto.LonginResponseDto;
 import com.sparta.springwebscheduler.dto.UserDto.UserRequestDto;
 import com.sparta.springwebscheduler.dto.UserDto.UserResponseDto;
 import com.sparta.springwebscheduler.entity.User;
@@ -69,7 +70,7 @@ public class UserService {
         );
     }
 
-    public void login(LoginRequestDto loginRequest, HttpServletResponse res) {
+    public LonginResponseDto login(LoginRequestDto loginRequest, HttpServletResponse res) {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
 
@@ -86,5 +87,6 @@ public class UserService {
         //JWT생성 및 쿠키에 저장후 response 객체의 추가
         String token = jwtUtil.createToken(user.getId());
         jwtUtil.addJwtToCookie(token, res);
+        return new LonginResponseDto(token);
     }
 }

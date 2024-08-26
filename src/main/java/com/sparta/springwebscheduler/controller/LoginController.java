@@ -1,6 +1,7 @@
 package com.sparta.springwebscheduler.controller;
 
 import com.sparta.springwebscheduler.dto.LoginRequestDto;
+import com.sparta.springwebscheduler.dto.LonginResponseDto;
 import com.sparta.springwebscheduler.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     private final UserService userService;
+
     @PostMapping
-    public void logIn(@RequestBody LoginRequestDto loginRequest, HttpServletResponse res){
-        userService.login(loginRequest,res);
+    public LonginResponseDto logIn(@RequestBody LoginRequestDto loginRequest, HttpServletResponse res){
+        return userService.login(loginRequest,res);
     }
 }
