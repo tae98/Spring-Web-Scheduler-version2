@@ -1,26 +1,45 @@
 package com.sparta.springwebscheduler.service;
 
+import com.sparta.springwebscheduler.config.PasswordEncoder;
 import com.sparta.springwebscheduler.dto.UserDto.UserRequestDto;
 import com.sparta.springwebscheduler.dto.UserDto.UserResponseDto;
 import com.sparta.springwebscheduler.entity.User;
+import com.sparta.springwebscheduler.jwt.JwtUtil;
 import com.sparta.springwebscheduler.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public UserResponseDto createUser(UserRequestDto userRequest) {
+    public UserResponseDto createUser(UserRequestDto userRequest, HttpServletResponse res) {
+        String userName = userRequest.getUsername();
+        String password = passwordEncoder.encode(userRequest.getPassword());
+
+        // email 중복확인
+        String email = userRequest.getEmail();
+        Optional<User> checkEmail = userRepository.findByEmail(email);
+        if (checkEmail.isPresent()) {
+            throw new IllegalArgumentException("중복된 Email 입니다.");
+        }
+
         // RequestDto -> Entity
-        User user = new User(userRequest);
+        User user = new User(userRequest,password);
         //DB 저장
         User saveUser = userRepository.save(user);
+        //token생성 및 쿠키
+        String token = jwtUtil.createToken(saveUser.getId());
+        jwtUtil.addJwtToCookie(token,res);
         //Entity -> ResponseDto
         UserResponseDto userResponse = new UserResponseDto(saveUser);
         return userResponse;

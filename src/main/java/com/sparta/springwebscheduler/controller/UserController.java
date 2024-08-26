@@ -5,6 +5,7 @@ import com.sparta.springwebscheduler.dto.UserDto.UserRequestDto;
 import com.sparta.springwebscheduler.dto.UserDto.UserResponseDto;
 import com.sparta.springwebscheduler.entity.User;
 import com.sparta.springwebscheduler.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserResponseDto createUser(@RequestBody UserRequestDto userRequest){
-        return userService.createUser(userRequest);
+    public UserResponseDto createUser(@RequestBody UserRequestDto userRequest, HttpServletResponse res){
+        return userService.createUser(userRequest,res);
     }
 
     @GetMapping("/{id}")

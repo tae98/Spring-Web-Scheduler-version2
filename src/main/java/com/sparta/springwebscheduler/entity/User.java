@@ -19,15 +19,18 @@ public class User extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="user_id")
     private Long id;
-    String username;
-    String email;
+    private String username;
+    private String email;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Storage> storagesList = new ArrayList<>();
 
-    public User(UserRequestDto userRequest){
+    public User(UserRequestDto userRequest, String password){
         this.username = userRequest.getUsername();
         this.email = userRequest.getEmail();
+        this.password = password;
     }
 
     public void updateUser(UserRequestDto userRequest){
