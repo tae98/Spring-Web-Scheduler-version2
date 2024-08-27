@@ -76,9 +76,11 @@ public class ScheduleService {
 
         User user = userRepository.findById(user_id).orElseThrow(
                 () -> {
-                    return new IllegalArgumentException("선택한 유저는 존재하지 않습니다.");
+                    throw  new IllegalArgumentException("선택한 유저는 존재하지 않습니다.");
                 });
-
+        if(!schedule.getUser_id().equals(user.getId())){
+            throw new IllegalArgumentException("작성 유저만 담당 유저를 배치할수 있습니다.");
+        }
         Storage storage = new Storage();
         storage.setUser(user);
         storage.setSchedule(schedule);
