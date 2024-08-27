@@ -1,0 +1,46 @@
+create table schedules
+(
+    id          bigint auto_increment constraint `PRIMARY`
+			primary key,
+    created_at  datetime(6)  null,
+    modified_at datetime(6)  null,
+    contents    varchar(500) not null,
+    title       varchar(255) not null,
+    user_id     bigint       not null
+);
+
+create table comment
+(
+    comment_id  bigint auto_increment constraint `PRIMARY`
+			primary key,
+    created_at  datetime(6)  null,
+    modified_at datetime(6)  null,
+    comment     varchar(255) not null,
+    username    varchar(255) not null,
+    schedule_id bigint       null,
+    constraint FKkttgf05nlgstjuv4kgh2ecpvx
+        foreign key (schedule_id) references schedules (id)
+);
+
+create table users
+(
+    user_id     bigint auto_increment constraint `PRIMARY`
+			primary key,
+    created_at  datetime(6)  null,
+    modified_at datetime(6)  null,
+    email       varchar(255) null,
+    username    varchar(255) null
+);
+
+create table storages
+(
+    storage_id  bigint auto_increment constraint `PRIMARY`
+			primary key,
+    schedule_id bigint null,
+    user_id     bigint null,
+    constraint FKkil4bdowhktuxqiqqbvg95bbq
+        foreign key (schedule_id) references schedules (id),
+    constraint FKs0kdmtc0tkma64h6b4tgck0cd
+        foreign key (user_id) references users (user_id)
+);
+
