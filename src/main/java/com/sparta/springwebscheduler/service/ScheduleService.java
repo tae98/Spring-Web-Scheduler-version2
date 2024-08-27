@@ -7,6 +7,7 @@ import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleResponseDto;
 import com.sparta.springwebscheduler.entity.Schedule;
 import com.sparta.springwebscheduler.entity.Storage;
 import com.sparta.springwebscheduler.entity.User;
+import com.sparta.springwebscheduler.entity.UserRoleEnum;
 import com.sparta.springwebscheduler.repository.ScheduleRepository;
 import com.sparta.springwebscheduler.repository.StorageRepository;
 import com.sparta.springwebscheduler.repository.UserRepository;
@@ -58,7 +59,10 @@ public class ScheduleService {
 
     //변경 사항이 있음으로 Transactional value 변경
     @Transactional
-    public Schedule updateSchedule(Long id, ScheduleRequestDto scheduleRequest) {
+    public Schedule updateSchedule(Long id, ScheduleRequestDto scheduleRequest, User user) {
+        if(user.getRole().equals(UserRoleEnum.USER)){
+            throw new IllegalArgumentException("사용자 권한이 없습니다");
+        }
         //알맞은 schedule db 에서 찾기
         Schedule schedule = getScheduleById(id);
         //해당 schedule 을 Schedule 클래스 내부 method update 를 사용하여 ScheduleRequestDto 내용대로 변경
@@ -82,7 +86,10 @@ public class ScheduleService {
         storageRepository.save(storage);
     }
 
-    public Long deleteSchedule(Long id) {
+    public Long deleteSchedule(Long id, User user) {
+        if(user.getRole().equals(UserRoleEnum.USER)){
+            throw new IllegalArgumentException("사용자 권한이 없습니다");
+        }
         //알맞은 schedule db 에서 찾기
         Schedule deleteSchedule = getScheduleById(id);
         //JpaRepository Inteface 내포한 delete를 사용하여 해당 schedule 삭제

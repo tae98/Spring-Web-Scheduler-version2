@@ -21,17 +21,24 @@ public class User extends Timestamped{
     private Long id;
     private String username;
     private String email;
+
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Storage> storagesList = new ArrayList<>();
 
-    public User(UserRequestDto userRequest, String password){
+    public User(UserRequestDto userRequest, String password, UserRoleEnum role){
         this.username = userRequest.getUsername();
         this.email = userRequest.getEmail();
         this.password = password;
+        this.role = role;
     }
+
 
     public void updateUser(UserRequestDto userRequest){
         this.username = userRequest.getUsername();

@@ -5,7 +5,10 @@ import com.sparta.springwebscheduler.dto.ScheduleDetailResponseDto;
 import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleRequestDto;
 import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleResponseDto;
 import com.sparta.springwebscheduler.entity.Schedule;
+import com.sparta.springwebscheduler.entity.User;
 import com.sparta.springwebscheduler.service.ScheduleService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,13 +41,15 @@ public class SchedulerController {
     }
 
     @PutMapping("/{id}")
-    public Schedule updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequest){
-        return scheduleService.updateSchedule(id, scheduleRequest);
+    public Schedule updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto scheduleRequest, HttpServletRequest req){
+        User user = (User) req.getAttribute("user");
+        return scheduleService.updateSchedule(id, scheduleRequest, user);
     }
 
     @DeleteMapping("/{id}")
-    public Long deleteSchedule(@PathVariable Long id){
-        return scheduleService.deleteSchedule(id);
+    public Long deleteSchedule(@PathVariable Long id, HttpServletRequest req){
+        User user = (User) req.getAttribute("user");
+        return scheduleService.deleteSchedule(id, user);
     }
 
     @PutMapping("/{id}/{user_id}")
