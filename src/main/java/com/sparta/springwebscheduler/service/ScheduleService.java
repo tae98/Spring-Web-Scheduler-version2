@@ -154,15 +154,15 @@ public class ScheduleService {
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
         String responseBody = responseEntity.getBody();
 
-        // Jackson ObjectMapper를 사용하여 JSON 문자열을 객체로 변환
+        // ObjectMapper를 사용해 Json 객체로 반환
         ObjectMapper objectMapper = new ObjectMapper();
         List<Map<String, String>> weatherData = null;
         try {
             weatherData = objectMapper.readValue(responseBody, new TypeReference<List<Map<String, String>>>() {});
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            // 예외 처리: 로그를 남기거나 기본 값을 반환할 수 있습니다.
-            return "Error processing weather data";
+            // JsonProcessing 에러가 날경우
+            return e.getMessage();
         }
 
         // 날짜에 맞는 날씨 정보를 찾기
@@ -172,8 +172,8 @@ public class ScheduleService {
             }
         }
 
-        // 날짜에 맞는 날씨 정보가 없는 경우
-        return "No weather data available for the specified date";
+        // 날씨 정보가 주어진 해당 날짜에 matching 돼는 값이 없는경우
+        return "해당 날짜에 맞는 날씨 정보가 없습니다";
     }
 
     public Schedule getScheduleById(Long id) {

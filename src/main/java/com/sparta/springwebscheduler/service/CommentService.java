@@ -66,9 +66,8 @@ public class CommentService {
     public Schedule getScheduleById(Long id){
         //해당 Id 를 가진 schedule 이 있는지 검증 및 반환
         return scheduleRepository.findById(id).orElseThrow(
-                ()-> new IllegalArgumentException("선택한 일정는 존재하지 않습니다.")
+                ()-> new IllegalArgumentException("선택한 일정이 존재하지 않습니다.")
         );
     }
-
 
 }
