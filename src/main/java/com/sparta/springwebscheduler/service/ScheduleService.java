@@ -92,7 +92,7 @@ public class ScheduleService {
         return schedule;
     }
 
-    public void setUserToSchedule(Long id, Long user_id, Long setUserId) {
+    public Long setUserToSchedule(Long id, Long user_id, Long setUserId) {
         Schedule schedule = getScheduleById(id);
 
         User user = userRepository.findById(user_id).orElseThrow(
@@ -113,6 +113,7 @@ public class ScheduleService {
         storage.setSchedule(schedule);
 
         storageRepository.save(storage);
+        return setUser.getId();
     }
 
     public Long deleteSchedule(Long id, User user) {

@@ -53,7 +53,7 @@ public class SchedulerController {
     }
 
     @PutMapping("/{id}/{user_id}")
-    public void setUserToSchedule(@PathVariable Long id, @PathVariable Long user_id, @RequestParam Long setUserId){
-        scheduleService.setUserToSchedule(id, user_id,setUserId);
+    public Long setUserToSchedule(@PathVariable Long id, @PathVariable Long user_id, @RequestParam Long setUserId){
+        return scheduleService.setUserToSchedule(id, user_id,setUserId);
     }
 }
