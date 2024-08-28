@@ -8,7 +8,6 @@ import com.sparta.springwebscheduler.entity.Schedule;
 import com.sparta.springwebscheduler.entity.User;
 import com.sparta.springwebscheduler.service.ScheduleService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

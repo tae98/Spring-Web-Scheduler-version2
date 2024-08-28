@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Setter;
 
 @Entity
-@Setter
 @Table(name = "storages")
 public class Storage {
     @Id
@@ -12,11 +11,14 @@ public class Storage {
     @Column(name = "storage_id")
     private Long id;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name ="schedule_id")
     private Schedule schedule;
+
 }

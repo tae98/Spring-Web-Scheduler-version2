@@ -1,5 +1,8 @@
 package com.sparta.springwebscheduler.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.springwebscheduler.dto.PageResponseDto;
 import com.sparta.springwebscheduler.dto.ScheduleDetailResponseDto;
 import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleRequestDto;
@@ -12,27 +15,45 @@ import com.sparta.springwebscheduler.repository.ScheduleRepository;
 import com.sparta.springwebscheduler.repository.StorageRepository;
 import com.sparta.springwebscheduler.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
     private final StorageRepository storageRepository;
+    private final RestTemplate restTemplate;
 
+    public ScheduleService(ScheduleRepository scheduleRepository, UserRepository userRepository, StorageRepository storageRepository, RestTemplateBuilder restTemplate) {
+        this.scheduleRepository = scheduleRepository;
+        this.userRepository = userRepository;
+        this.storageRepository = storageRepository;
+        this.restTemplate = restTemplate.build();
+    }
+
+    @Transactional // weather data 삽입 위해 필요함
     public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequest) {
         // RequestDto -> Entity
         Schedule schedule = new Schedule(scheduleRequest);
         // DB 저장
         Schedule saveSchedule = scheduleRepository.save(schedule);
+        //생성일로 받아온 날짜 weather 구한뒤 set
+        String weather = getWeather(schedule.getCreatedAt());
+        schedule.setWeather(weather);
         // Entity -> ResponseDto
         ScheduleResponseDto scheduleResponseDto = new ScheduleResponseDto(schedule);
 
@@ -116,6 +137,43 @@ public class ScheduleService {
                 schedule.getContents()
         );
         return scheduleDetailResponse;
+    }
+
+    public String getWeather(LocalDateTime date) {
+        // 날짜를 "MM-dd" 형식으로 포맷팅
+        String formattedDate = date.format(DateTimeFormatter.ofPattern("MM-dd"));
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://f-api.github.io")
+                .path("/f-api/weather.json")
+                .queryParam("date", formattedDate)
+                .encode()
+                .build()
+                .toUri();
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
+        String responseBody = responseEntity.getBody();
+
+        // Jackson ObjectMapper를 사용하여 JSON 문자열을 객체로 변환
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, String>> weatherData = null;
+        try {
+            weatherData = objectMapper.readValue(responseBody, new TypeReference<List<Map<String, String>>>() {});
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            // 예외 처리: 로그를 남기거나 기본 값을 반환할 수 있습니다.
+            return "Error processing weather data";
+        }
+
+        // 날짜에 맞는 날씨 정보를 찾기
+        for (Map<String, String> entry : weatherData) {
+            if (entry.get("date").equals(formattedDate)) {
+                return entry.get("weather");
+            }
+        }
+
+        // 날짜에 맞는 날씨 정보가 없는 경우
+        return "No weather data available for the specified date";
     }
 
     public Schedule getScheduleById(Long id) {
