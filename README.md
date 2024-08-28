@@ -17,7 +17,7 @@ Development
 ![Gradle](https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white)
 
 # ⚒️ API Table & Script
-## [🖇️ Postman API Script](https://documenter.getpostman.com/view/37620136/2sA3s7hobk)
+## [🖇️ Postman API Script Link]([https://documenter.getpostman.com/view/37620136/2sA3s7hobk](https://documenter.getpostman.com/view/37620136/2sAXjJ6DBi))
 
 ## 1 단계
 ### Schedule
