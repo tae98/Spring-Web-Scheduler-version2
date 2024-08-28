@@ -1,7 +1,7 @@
 package com.sparta.springwebscheduler.service;
 
-import com.sparta.springwebscheduler.dto.ConsumerDto.CommentRequestDto;
-import com.sparta.springwebscheduler.dto.ConsumerDto.CommentResponseDto;
+import com.sparta.springwebscheduler.dto.CommentDto.CommentRequestDto;
+import com.sparta.springwebscheduler.dto.CommentDto.CommentResponseDto;
 import com.sparta.springwebscheduler.entity.Comment;
 import com.sparta.springwebscheduler.entity.Schedule;
 import com.sparta.springwebscheduler.repository.CommentRepository;

@@ -9,6 +9,7 @@ import com.sparta.springwebscheduler.entity.User;
 import com.sparta.springwebscheduler.service.ScheduleService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +23,13 @@ public class SchedulerController {
 
 
     @PostMapping
-    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequest){
-        return scheduleService.createSchedule(scheduleRequest);
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto scheduleRequest){
+        return ResponseEntity.ok(scheduleService.createSchedule(scheduleRequest));
     }
 
     @GetMapping("/{id}")
-    public ScheduleDetailResponseDto getScheduleByIdDetail(@PathVariable Long id){
-        return scheduleService.getScheduleByIdDedtail(id);
+    public ResponseEntity<ScheduleDetailResponseDto> getScheduleByIdDetail(@PathVariable Long id){
+        return ResponseEntity.ok(scheduleService.getScheduleByIdDedtail(id));
     }
 
     @GetMapping
@@ -55,5 +56,4 @@ public class SchedulerController {
     public void setUserToSchedule(@PathVariable Long id, @PathVariable Long user_id){
         scheduleService.setUserToSchedule(id, user_id);
     }
-
 }
