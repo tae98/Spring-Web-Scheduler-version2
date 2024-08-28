@@ -92,18 +92,24 @@ public class ScheduleService {
         return schedule;
     }
 
-    public void setUserToSchedule(Long id, Long user_id) {
+    public void setUserToSchedule(Long id, Long user_id, Long setUserId) {
         Schedule schedule = getScheduleById(id);
 
         User user = userRepository.findById(user_id).orElseThrow(
                 () -> {
                     throw  new IllegalArgumentException("선택한 유저는 존재하지 않습니다.");
                 });
+        User setUser = userRepository.findById(setUserId).orElseThrow(
+                () ->{
+                    throw new IllegalArgumentException("선택한 유저는 존재하지 않습니다.");
+                }
+        );
+
         if(!schedule.getUser_id().equals(user.getId())){
             throw new IllegalArgumentException("작성 유저만 담당 유저를 배치할수 있습니다.");
         }
         Storage storage = new Storage();
-        storage.setUser(user);
+        storage.setUser(setUser);
         storage.setSchedule(schedule);
 
         storageRepository.save(storage);
