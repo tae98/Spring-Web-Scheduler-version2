@@ -1,5 +1,6 @@
 package com.sparta.springwebscheduler.entity;
 
+import com.sparta.springwebscheduler.UserRoleEnum;
 import com.sparta.springwebscheduler.dto.UserDto.UserRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;

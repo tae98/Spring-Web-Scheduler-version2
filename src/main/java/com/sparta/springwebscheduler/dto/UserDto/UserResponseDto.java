@@ -1,7 +1,7 @@
 package com.sparta.springwebscheduler.dto.UserDto;
 
 import com.sparta.springwebscheduler.entity.User;
-import com.sparta.springwebscheduler.entity.UserRoleEnum;
+import com.sparta.springwebscheduler.UserRoleEnum;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

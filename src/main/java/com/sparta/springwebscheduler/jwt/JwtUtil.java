@@ -1,6 +1,6 @@
 package com.sparta.springwebscheduler.jwt;
 
-import com.sparta.springwebscheduler.entity.UserRoleEnum;
+import com.sparta.springwebscheduler.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;

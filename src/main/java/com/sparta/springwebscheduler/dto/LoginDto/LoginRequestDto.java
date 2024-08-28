@@ -1,7 +1,6 @@
-package com.sparta.springwebscheduler.dto;
+package com.sparta.springwebscheduler.dto.LoginDto;
 
 import lombok.Getter;
-import lombok.Setter;
 
 
 @Getter

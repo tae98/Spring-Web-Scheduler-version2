@@ -1,4 +1,4 @@
-package com.sparta.springwebscheduler.entity;
+package com.sparta.springwebscheduler;
 
 
 public enum UserRoleEnum {

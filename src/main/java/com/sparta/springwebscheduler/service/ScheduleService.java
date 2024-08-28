@@ -10,7 +10,7 @@ import com.sparta.springwebscheduler.dto.ScheduleDto.ScheduleResponseDto;
 import com.sparta.springwebscheduler.entity.Schedule;
 import com.sparta.springwebscheduler.entity.Storage;
 import com.sparta.springwebscheduler.entity.User;
-import com.sparta.springwebscheduler.entity.UserRoleEnum;
+import com.sparta.springwebscheduler.UserRoleEnum;
 import com.sparta.springwebscheduler.repository.ScheduleRepository;
 import com.sparta.springwebscheduler.repository.StorageRepository;
 import com.sparta.springwebscheduler.repository.UserRepository;
